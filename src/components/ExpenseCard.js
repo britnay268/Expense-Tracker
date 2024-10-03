@@ -15,11 +15,15 @@ import { getExpenses } from '../api/expensesData';
 
 export default function ExpenseCard() {
   const [expense, setExpenses] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const { user } = useAuth();
 
   const getAllExpenses = () => {
-    getExpenses(user.uid).then(setExpenses);
+    getExpenses(user.uid).then((expenses) => {
+      setExpenses(expenses);
+      setTotal(expenses.reduce((totalAmount, current) => totalAmount + current.amount, 0));
+    });
   };
 
   useEffect(() => {
@@ -48,6 +52,12 @@ export default function ExpenseCard() {
               <TableCell align="right">{e.amount}</TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell sx={{ fontWeight: 'bolder' }}>Total</TableCell>
+            <TableCell colSpan={2} align="right" sx={{ fontWeight: 'bolder' }}>
+              ${total}
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
