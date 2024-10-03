@@ -68,7 +68,7 @@ const deleteSingleExpense = (firebaseKey) =>
 
 const updateExpense = (payload) =>
   new Promise((resolve, reject) => {
-    fetch(`${endpoint}/expensess/${payload.firebaseKey}.json`, {
+    fetch(`${endpoint}/expenses/${payload.firebaseKey}.json`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import { useAuth } from '@/utils/context/authContext';
+import { useRouter } from 'next/navigation';
+import { createExpense, updateExpense } from '../../api/expensesData';
 
 const initialState = {
   description: '',
@@ -13,17 +16,35 @@ const initialState = {
 
 export default function ExpenseForm({ obj = initialState }) {
   const [formInput, setFormInput] = useState(initialState);
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: name === 'amount' ? parseFloat(value) : value,
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const payload = { ...formInput, uid: user.uid };
+    if (obj.firebaseKey) {
+      updateExpense(payload).then(() => router.push('/expenses'));
+    } else {
+      createExpense(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+        updateExpense(patchPayload).then(() => {
+          router.push('/expenses');
+        });
+      });
+    }
+  };
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>Name of Expense</Form.Label>
         <Form.Control size="lg" type="text" placeholder="Enter name of expense" style={{ marginBottom: '10px' }} name="description" value={formInput.description} onChange={handleChange} required />
@@ -55,7 +76,7 @@ ExpenseForm.propTypes = {
   obj: PropTypes.shape({
     description: PropTypes.string,
     date: PropTypes.string,
-    amount: PropTypes.string,
+    amount: PropTypes.number,
     firebaseKey: PropTypes.string,
   }),
 };
