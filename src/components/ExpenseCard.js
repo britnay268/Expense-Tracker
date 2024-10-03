@@ -10,8 +10,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button } from 'react-bootstrap';
+import { DeleteForever } from '@mui/icons-material';
 import { useAuth } from '../utils/context/authContext';
-import { getExpenses } from '../api/expensesData';
+import { deleteSingleExpense, getExpenses } from '../api/expensesData';
 
 export default function ExpenseCard() {
   const [expense, setExpenses] = useState([]);
@@ -22,7 +24,8 @@ export default function ExpenseCard() {
   const getAllExpenses = () => {
     getExpenses(user.uid).then((expenses) => {
       setExpenses(expenses);
-      setTotal(expenses.reduce((totalAmount, current) => totalAmount + current.amount, 0));
+      const totalAmount = expenses.reduce((accumulatedTotal, current) => accumulatedTotal + current.amount, 0);
+      setTotal(totalAmount.toFixed(2));
     });
   };
 
@@ -37,7 +40,7 @@ export default function ExpenseCard() {
           <TableRow>
             <TableCell sx={{ fontWeight: 'bolder' }}>Date</TableCell>
             <TableCell sx={{ fontWeight: 'bolder' }}>Description</TableCell>
-            <TableCell align="right" sx={{ fontWeight: 'bolder' }}>
+            <TableCell sx={{ fontWeight: 'bolder' }} colSpan={2}>
               Amount
             </TableCell>
           </TableRow>
@@ -49,12 +52,24 @@ export default function ExpenseCard() {
               <TableCell component="th" scope="row">
                 {e.description}
               </TableCell>
-              <TableCell align="right">{e.amount}</TableCell>
+              <TableCell>${e.amount}</TableCell>
+              <TableCell align="right">
+                <Button
+                  variant="link"
+                  style={{ color: 'red' }}
+                  onClick={async () => {
+                    await deleteSingleExpense(e.firebaseKey);
+                    getAllExpenses();
+                  }}
+                >
+                  <DeleteForever />
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
           <TableRow>
             <TableCell sx={{ fontWeight: 'bolder' }}>Total</TableCell>
-            <TableCell colSpan={2} align="right" sx={{ fontWeight: 'bolder' }}>
+            <TableCell colSpan={3} align="right" sx={{ fontWeight: 'bolder' }}>
               ${total}
             </TableCell>
           </TableRow>

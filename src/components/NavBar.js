@@ -19,7 +19,7 @@ export default function NavBar() {
               Home
             </Link>
             <Link className="nav-link" href="/expenses">
-              Expense
+              Expenses
             </Link>
           </Nav>
 
