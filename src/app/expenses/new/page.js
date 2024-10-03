@@ -1,5 +1,6 @@
 import React from 'react';
+import ExpenseForm from '../../../components/forms/ExpenseForm';
 
-export default function ExpenseForm() {
-  return <div>This is the expese form.</div>;
+export default function AddExpense() {
+  return <ExpenseForm />;
 }
