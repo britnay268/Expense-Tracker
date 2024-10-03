@@ -5,7 +5,7 @@ const endpoint = clientCredentials.databaseURL;
 // Get All Expenses by uid
 const getExpenses = (uid) =>
   new Promise((resolve, reject) => {
-    fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
+    fetch(`${endpoint}/expenses.json?orderBy="uid"&equalTo="${uid}"`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
