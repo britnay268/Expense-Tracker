@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
@@ -15,9 +15,13 @@ const initialState = {
 };
 
 export default function ExpenseForm({ obj = initialState }) {
-  const [formInput, setFormInput] = useState(initialState);
   const { user } = useAuth();
+  const [formInput, setFormInput] = useState({ ...initialState, uid: user.uid });
   const router = useRouter();
+
+  useEffect(() => {
+    if (obj?.firebaseKey) setFormInput(obj);
+  }, [obj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

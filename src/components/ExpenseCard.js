@@ -11,7 +11,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from 'react-bootstrap';
-import { DeleteForever } from '@mui/icons-material';
+import { Create, DeleteForever } from '@mui/icons-material';
+import Link from 'next/link';
 import { useAuth } from '../utils/context/authContext';
 import { deleteSingleExpense, getExpenses } from '../api/expensesData';
 
@@ -54,16 +55,23 @@ export default function ExpenseCard() {
               </TableCell>
               <TableCell>${e.amount}</TableCell>
               <TableCell align="right">
-                <Button
-                  variant="link"
-                  style={{ color: 'red' }}
-                  onClick={async () => {
-                    await deleteSingleExpense(e.firebaseKey);
-                    getAllExpenses();
-                  }}
-                >
-                  <DeleteForever />
-                </Button>
+                <div>
+                  <Link href={`/expenses/${e.firebaseKey}`}>
+                    <Button variant="link" style={{ color: 'goldenrod' }}>
+                      <Create />
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="link"
+                    style={{ color: 'red' }}
+                    onClick={async () => {
+                      await deleteSingleExpense(e.firebaseKey);
+                      getAllExpenses();
+                    }}
+                  >
+                    <DeleteForever />
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

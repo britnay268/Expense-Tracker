@@ -48,7 +48,6 @@ const getSingleExpense = (firebaseKey) =>
       .then((response) => response.json())
       .then((data) => {
         resolve(data);
-        // console.warn(data);
       })
       .catch(reject);
   });
