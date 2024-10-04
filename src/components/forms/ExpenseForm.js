@@ -48,15 +48,24 @@ export default function ExpenseForm({ obj = initialState }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} style={{ width: '70%', margin: '20px auto' }}>
       <Form.Group>
         <Form.Label>Name of Expense</Form.Label>
         <Form.Control size="lg" type="text" placeholder="Enter name of expense" style={{ marginBottom: '10px' }} name="description" value={formInput.description} onChange={handleChange} required />
       </Form.Group>
 
       <Form.Group>
-        <Form.Label>Exepnse Amount</Form.Label>
+        <Form.Label>Expense Amount</Form.Label>
         <Form.Control size="lg" type="text" placeholder="Enter expense amount" style={{ marginBottom: '10px' }} name="amount" value={formInput.amount} onChange={handleChange} required />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>Category of Expense</Form.Label>
+        <Form.Select size="lg" aria-label="Role" name="category" onChange={handleChange} className="mb-3" value={formInput.category} required>
+          <option value="">Fixed or Variable Expense?</option>
+          <option value="Fixed Expense">Fixed Expense</option>
+          <option value="Variable Expense">Variable Expense</option>
+        </Form.Select>
       </Form.Group>
 
       <Form.Group className="mb-3 align">

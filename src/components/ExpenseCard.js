@@ -35,12 +35,13 @@ export default function ExpenseCard() {
   }, []);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} style={{ width: '70%', margin: '0px auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontWeight: 'bolder' }}>Date</TableCell>
             <TableCell sx={{ fontWeight: 'bolder' }}>Description</TableCell>
+            <TableCell sx={{ fontWeight: 'bolder' }}>Category</TableCell>
             <TableCell sx={{ fontWeight: 'bolder' }} colSpan={2}>
               Amount
             </TableCell>
@@ -53,6 +54,7 @@ export default function ExpenseCard() {
               <TableCell component="th" scope="row">
                 {e.description}
               </TableCell>
+              <TableCell>{e.category}</TableCell>
               <TableCell>${e.amount}</TableCell>
               <TableCell align="right">
                 <div>
@@ -77,7 +79,7 @@ export default function ExpenseCard() {
           ))}
           <TableRow>
             <TableCell sx={{ fontWeight: 'bolder' }}>Total</TableCell>
-            <TableCell colSpan={3} align="right" sx={{ fontWeight: 'bolder' }}>
+            <TableCell colSpan={4} align="right" sx={{ fontWeight: 'bolder' }}>
               ${total}
             </TableCell>
           </TableRow>
