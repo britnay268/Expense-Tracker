@@ -5,7 +5,7 @@ const endpoint = clientCredentials.databaseURL;
 // Get All Expenses by uid
 const getExpenses = (uid) =>
   new Promise((resolve, reject) => {
-    fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
+    fetch(`${endpoint}/expenses.json?orderBy="uid"&equalTo="${uid}"`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -48,7 +48,6 @@ const getSingleExpense = (firebaseKey) =>
       .then((response) => response.json())
       .then((data) => {
         resolve(data);
-        // console.warn(data);
       })
       .catch(reject);
   });
@@ -68,7 +67,7 @@ const deleteSingleExpense = (firebaseKey) =>
 
 const updateExpense = (payload) =>
   new Promise((resolve, reject) => {
-    fetch(`${endpoint}/expensess/${payload.firebaseKey}.json`, {
+    fetch(`${endpoint}/expenses/${payload.firebaseKey}.json`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
